@@ -1,19 +1,9 @@
-/**
- * data/residents.js
- * Static resident records. In a real deployment this would be
- * fetched from a secure authenticated API endpoint.
- *
- * NOTE: No real personal data should be committed to a public
- * repository. Replace sample data with real records only on a
- * private, access-controlled deployment.
- */
-
 'use strict';
 
 const RESIDENTS = Object.freeze([
   {
     id: 1,
-    name: 'Margaret Thompson',
+    name: 'Nuhu Kiberu',
     room: 'Room 1',
     dob: '14/03/1942',
     age: 83,
@@ -27,7 +17,7 @@ const RESIDENTS = Object.freeze([
   },
   {
     id: 2,
-    name: 'Arthur Williams',
+    name: 'Ashra Kasai',
     room: 'Room 2',
     dob: '22/07/1938',
     age: 86,
@@ -41,7 +31,7 @@ const RESIDENTS = Object.freeze([
   },
   {
     id: 3,
-    name: 'Ethel Brown',
+    name: 'Taylor Dowman',
     room: 'Room 3',
     dob: '05/11/1945',
     age: 79,
@@ -55,7 +45,7 @@ const RESIDENTS = Object.freeze([
   },
   {
     id: 4,
-    name: 'George Davies',
+    name: 'Greg Anstead',
     room: 'Room 4',
     dob: '30/01/1940',
     age: 85,
@@ -69,7 +59,7 @@ const RESIDENTS = Object.freeze([
   },
   {
     id: 5,
-    name: 'Dorothy Evans',
+    name: 'Mary Samba',
     room: 'Room 5',
     dob: '18/06/1950',
     age: 75,
