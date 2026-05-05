@@ -36,7 +36,6 @@
           class="rs-select"
           id="residentSelect"
           aria-labelledby="resident-selector-label"
-          onchange="App.switchResident(this.value)"
         >
           <!-- Populated by residents.js -->
         </select>
@@ -97,6 +96,9 @@
 
         <div class="nav-section">
           <div class="nav-section-label">Management</div>
+          <button class="nav-item" data-page="appointments" onclick="App.showPage('appointments')">
+            <span class="nav-icon" aria-hidden="true">📅</span> Appointments
+          </button>
           <button class="nav-item" data-page="residents" onclick="App.showPage('residents')">
             <span class="nav-icon" aria-hidden="true">👥</span> All Residents
           </button>
@@ -112,11 +114,15 @@
 
       <!-- Top bar -->
       <header class="topbar" role="banner">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Open menu" aria-expanded="false" onclick="App.toggleSidebar()">&#9776;</button>
+        <!-- Mobile: shows app brand -->
+        <span class="tb-brand" aria-label="CareDoc">CareDoc</span>
+        <!-- Desktop: shows current page title + resident badge -->
         <div class="tb-left">
           <h1 class="tb-title" id="tb-title">Dashboard</h1>
           <span class="tb-resident-badge" id="tb-badge" aria-live="polite">—</span>
         </div>
-        <div style="display:flex;align-items:center;gap:16px">
+        <div style="display:flex;align-items:center;gap:12px">
           <time class="tb-date" id="tb-date" aria-label="Today's date"></time>
           <button class="tb-save-all" onclick="App.saveAll()" aria-label="Save all current records">
             💾 Save All
@@ -124,12 +130,38 @@
         </div>
       </header>
 
+      <!-- Mobile resident selector (hidden on desktop) -->
+      <div class="mobile-res-bar" role="region" aria-label="Active resident">
+        <select id="mobileResidentSelect" class="mobile-res-select"
+                aria-label="Switch resident">
+        </select>
+      </div>
+
+      <!-- Mobile navigation tabs (hidden on desktop) -->
+      <nav class="mobile-nav" aria-label="Section navigation">
+        <button class="nav-item active" data-page="dashboard"       onclick="App.showPage('dashboard')">⊞ Dashboard</button>
+        <button class="nav-item"        data-page="daily-notes"     onclick="App.showPage('daily-notes')">✎ Daily Notes</button>
+        <button class="nav-item"        data-page="continence"      onclick="App.showPage('continence')">◈ Continence</button>
+        <button class="nav-item"        data-page="activity"        onclick="App.showPage('activity')">❋ Activity</button>
+        <button class="nav-item"        data-page="night-report"    onclick="App.showPage('night-report')">🌙 Night</button>
+        <button class="nav-item"        data-page="personal-care"   onclick="App.showPage('personal-care')">♥ Personal Care</button>
+        <button class="nav-item"        data-page="freq-severity"   onclick="App.showPage('freq-severity')">▲ Freq &amp; Sev</button>
+        <button class="nav-item"        data-page="medication"      onclick="App.showPage('medication')">✚ Medication</button>
+        <button class="nav-item"        data-page="fluid-nutrition" onclick="App.showPage('fluid-nutrition')">◎ Fluid &amp; Nut</button>
+        <button class="nav-item"        data-page="epilepsy"        onclick="App.showPage('epilepsy')">⚡ Epilepsy</button>
+        <button class="nav-item"        data-page="appointments"    onclick="App.showPage('appointments')">📅 Appointments</button>
+        <button class="nav-item"        data-page="residents"       onclick="App.showPage('residents')">👥 Residents</button>
+      </nav>
+
       <!-- Page content injected here -->
       <div class="content-area" id="content" role="region" aria-live="polite" aria-label="Page content">
       </div>
 
     </div>
   </div>
+
+  <!-- Sidebar overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="App.closeSidebar()"></div>
 
   <!-- Toast notification -->
   <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
@@ -154,7 +186,7 @@
   <script src="js/modules/fluidNutrition.js"></script>
   <script src="js/modules/epilepsy.js"></script>
   <script src="js/modules/residentsOverview.js"></script>
-  <script src="js/modules/apppointments.js"></script>
+  <script src="js/modules/appointments.js"></script>
 
   <!-- 4. App controller — must be last -->
   <script src="js/app.js"></script>
