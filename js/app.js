@@ -42,6 +42,7 @@ const App = (() => {
     'fluid-nutrition':() => PageFluidNutrition.render(),
     'epilepsy':       () => PageEpilepsy.render(),
     'residents':      () => PageResidents.render(),
+    'appointments':   () => PageAppointments.render(),
   };
 
   // ── Init ───────────────────────────────────

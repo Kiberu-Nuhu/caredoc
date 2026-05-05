@@ -28,6 +28,8 @@ const Store = (() => {
         fluid:        [],
         epilepsy:     [],
         nightReports: [],
+        appointments: [],
+        
       };
     });
 

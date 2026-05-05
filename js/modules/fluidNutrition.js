@@ -1,8 +1,3 @@
-/**
- * js/modules/fluidNutrition.js
- * Fluid & Nutrition records.
- */
-
 'use strict';
 
 const PageFluidNutrition = (() => {
