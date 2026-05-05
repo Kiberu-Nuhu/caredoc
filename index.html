@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Security: prevent clickjacking, XSS via meta CSP hint -->
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline';" />
+
+  <title>CareDoc — Health &amp; Social Care Documentation</title>
+  <meta name="description" content="Care home documentation system for daily notes, medication, continence, activity and more." />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <div class="app" role="application" aria-label="CareDoc Application">
+
+    <!-- ══════════════════════════════════════
+         SIDEBAR
+    ══════════════════════════════════════ -->
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+
+      <div class="s-header">
+        <div class="s-logo" aria-label="CareDoc">CareDoc</div>
+        <div class="s-tagline">Health &amp; Social Care</div>
+      </div>
+
+      <!-- Resident Switcher -->
+      <div class="res-panel" role="region" aria-label="Resident selector">
+        <div class="rs-label" id="resident-selector-label">Active Resident</div>
+        <select
+          class="rs-select"
+          id="residentSelect"
+          aria-labelledby="resident-selector-label"
+          onchange="App.switchResident(this.value)"
+        >
+          <!-- Populated by residents.js -->
+        </select>
+        <div class="resident-card" style="margin:8px 0 0;display:flex;align-items:center;gap:8px"
+             role="status" aria-live="polite">
+          <div class="rc-avatar" id="sidebar-avatar" aria-hidden="true">--</div>
+          <div>
+            <div class="rc-name" id="sidebar-name">Loading...</div>
+            <div class="rc-meta" id="sidebar-meta"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="s-nav" aria-label="Section navigation">
+
+        <div class="nav-section">
+          <div class="nav-section-label">Overview</div>
+          <button class="nav-item active" data-page="dashboard" onclick="App.showPage('dashboard')">
+            <span class="nav-icon" aria-hidden="true">⊞</span> Dashboard
+          </button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-label">Daily Records</div>
+          <button class="nav-item" data-page="daily-notes" onclick="App.showPage('daily-notes')">
+            <span class="nav-icon" aria-hidden="true">✎</span> Daily Notes
+          </button>
+          <button class="nav-item" data-page="continence" onclick="App.showPage('continence')">
+            <span class="nav-icon" aria-hidden="true">◈</span> Continence
+          </button>
+          <button class="nav-item" data-page="activity" onclick="App.showPage('activity')">
+            <span class="nav-icon" aria-hidden="true">❋</span> Activity &amp; Engagement
+          </button>
+          <button class="nav-item" data-page="night-report" onclick="App.showPage('night-report')">
+            <span class="nav-icon" aria-hidden="true">🌙</span> Night Report
+          </button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-label">Care Records</div>
+          <button class="nav-item" data-page="personal-care" onclick="App.showPage('personal-care')">
+            <span class="nav-icon" aria-hidden="true">♥</span> Personal Care
+          </button>
+          <button class="nav-item" data-page="freq-severity" onclick="App.showPage('freq-severity')">
+            <span class="nav-icon" aria-hidden="true">▲</span> Freq &amp; Severity
+          </button>
+          <button class="nav-item" data-page="medication" onclick="App.showPage('medication')">
+            <span class="nav-icon" aria-hidden="true">✚</span> Medication
+          </button>
+          <button class="nav-item" data-page="fluid-nutrition" onclick="App.showPage('fluid-nutrition')">
+            <span class="nav-icon" aria-hidden="true">◎</span> Fluid &amp; Nutrition
+          </button>
+          <button class="nav-item" data-page="epilepsy" onclick="App.showPage('epilepsy')">
+            <span class="nav-icon" aria-hidden="true">⚡</span> Epilepsy Monitoring
+          </button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-label">Management</div>
+          <button class="nav-item" data-page="residents" onclick="App.showPage('residents')">
+            <span class="nav-icon" aria-hidden="true">👥</span> All Residents
+          </button>
+        </div>
+
+      </nav>
+    </aside>
+
+    <!-- ══════════════════════════════════════
+         MAIN CONTENT AREA
+    ══════════════════════════════════════ -->
+    <div class="main" role="main">
+
+      <!-- Top bar -->
+      <header class="topbar" role="banner">
+        <div class="tb-left">
+          <h1 class="tb-title" id="tb-title">Dashboard</h1>
+          <span class="tb-resident-badge" id="tb-badge" aria-live="polite">—</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <time class="tb-date" id="tb-date" aria-label="Today's date"></time>
+          <button class="tb-save-all" onclick="App.saveAll()" aria-label="Save all current records">
+            💾 Save All
+          </button>
+        </div>
+      </header>
+
+      <!-- Page content injected here -->
+      <div class="content-area" id="content" role="region" aria-live="polite" aria-label="Page content">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- ══ SCRIPTS — load order matters ══ -->
+  <!-- 1. Shared data store -->
+  <script src="data/residents.js"></script>
+  <script src="data/store.js"></script>
+
+  <!-- 2. Shared utilities -->
+  <script src="js/utils.js"></script>
+
+  <!-- 3. Page modules -->
+  <script src="js/modules/dashboard.js"></script>
+  <script src="js/modules/dailyNotes.js"></script>
+  <script src="js/modules/continence.js"></script>
+  <script src="js/modules/activity.js"></script>
+  <script src="js/modules/nightReport.js"></script>
+  <script src="js/modules/personalCare.js"></script>
+  <script src="js/modules/freqSeverity.js"></script>
+  <script src="js/modules/medication.js"></script>
+  <script src="js/modules/fluidNutrition.js"></script>
+  <script src="js/modules/epilepsy.js"></script>
+  <script src="js/modules/residentsOverview.js"></script>
+
+  <!-- 4. App controller — must be last -->
+  <script src="js/app.js"></script>
+
+</body>
+</html>
